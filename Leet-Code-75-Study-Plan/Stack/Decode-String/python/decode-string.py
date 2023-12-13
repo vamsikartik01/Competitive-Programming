@@ -1,36 +1,48 @@
-### https://leetcode.com/problems/decode-string/description/
+### https://leetcode.com/problems/decode-string/
 
-def decode_string(s: str) -> str:
-    stack = []
-    
-    key = 0
-    value = ""
-    flip = False
-    for char in s:
-        if not char.isdigit():
-            if key == 0:
+class Solution:
+    def decodeString(self, s: str) -> str:
+        result = []
+        stack = []
+        read = False
+        key = 0
+        value = ""
+        for char in s:
+            if char == "[" :
+                if not stack:
+                    read = True
+                    value = ""
+                else:
+                    value += char
                 stack.append(char)
+                
+                continue
+            elif char == "]" :
+                stack.pop()
+                if not stack:
+                    read = False
+                    value = self.decodeString(value)
+                    result.append([key, value])
+                    key = 0
+                else:
+                    value += char
                 continue
 
-            if char == '[':
-                flip = True
+            if not read:
+                if char.isdigit():
+                    key = key*10 + int(char)
+                    
+                else:
+                    key = 0
+                    result.append([1,char])
 
-
-            if flip:
+            if read:
                 value += char
 
-        else:
-            key = key*10+int(char)
+        op = ""
+        for [i,c] in result:
+            op += i*c
 
+        return op
 
-    print(stack)
-
-    return s
-
-def main():
-    inp = "2[abc]3[cd]e"
-    op = decode_string(inp)
-    print(op)
-
-if __name__=="__main__":
-    main()
+                
