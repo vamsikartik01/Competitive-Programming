@@ -1,0 +1,28 @@
+// https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/submissions/1168987299/?envType=study-plan-v2&envId=leetcode-75
+package main
+
+func max(slice []int) int {
+	if len(slice) > 0 {
+		a := slice[0]
+		for _, i := range slice {
+			if i > a {
+				a = i
+			}
+		}
+		return a
+	}
+	return 0
+}
+
+func kidsWithCandies(candies []int, extraCandies int) []bool {
+	maxCandies := max(candies)
+	var res []bool
+	for _, candy := range candies {
+		if candy+extraCandies >= maxCandies {
+			res = append(res, true)
+		} else {
+			res = append(res, false)
+		}
+	}
+	return res
+}
