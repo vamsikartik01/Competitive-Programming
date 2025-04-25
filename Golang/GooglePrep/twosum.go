@@ -14,3 +14,17 @@ func twoSum(nums []int, target int) []int {
 	return []int{}
 
 }
+
+func twoSumOptimised(nums []int, target int) []int {
+	hashMap := make(map[int]int)
+
+	for i, num := range nums {
+		comp := target - num
+		li, ok := hashMap[comp]
+		if ok {
+			return []int{li, i}
+		}
+		hashMap[num] = i
+	}
+	return []int{}
+}
